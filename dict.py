@@ -2,8 +2,8 @@
 
 import sys
 import json
-import urllib
-import urllib2
+from urllib.request import urlopen
+from urllib.parse import quote
 
 
 """
@@ -21,13 +21,13 @@ class Dict:
 
 	def __init__(self, argv):
 		if len(argv) == 1:
-			self.api = self.api + urllib.quote(argv[0])
+			self.api = self.api + quote(argv[0])
 			self.translate()
 		else:
-			print 'ERROR'
+			print("ERROR")
 
 	def translate(self):
-		content = urllib2.urlopen(self.api).read()
+		content = urlopen(self.api).read()
 		self.content = json.loads(content)
 		self.parse()
 
@@ -51,36 +51,36 @@ class Dict:
 			except KeyError:
 				explains = 'None'
 			# Format Output Phonogram
-			print '\033[1;31m################################### \033[0m'
-			print '\033[1;31m# \033[0m', self.content['query'], self.content['translation'][0],
+			print("\033[1;31m################################### \033[0m")
+			print("\033[1;31m# \033[0m"), self.content['query'], self.content['translation'][0],
 			if u != 'None':
-				print '(U:', u, 'E:', e, ')'
+				print ("(U:", u, "E:", e, ")")
 			elif c != 'None':
-				print '(Pinyin:', c, ')'
+				print ("(Pinyin:", c, ")")
 			else:
 				print
 			# Format Output Explains
 			if explains != 'None':
 				for i in range(0, len(explains)):
-					print '\033[1;31m# \033[0m', explains[i]
+					print("\033[1;31m# \033[0m", explains[i])
 			else:
-				print '\033[1;31m# \033[0m Explains None'
-			print '\033[1;31m################################### \033[0m'
+				print("\033[1;31m# \033[0m Explains None")
+			print("\033[1;31m################################### \033[0m")
 			# Parse and Format Output Phrase
 			for i in range(0, len(self.content['web'])):
-				print self.content['web'][i]['key'], ':'
+				print(self.content['web'][i]['key'], ':')
 				for j in range(0, len(self.content['web'][i]['value'])):
-					print self.content['web'][i]['value'][j]
+					print(self.content['web'][i]['value'][j])
 		elif code == 20:  # Text to long
-			print 'WORD TO LONG'
+			print("WORD TO LONG")
 		elif code == 30:  # Trans error
-			print 'TRANSLATE ERROR'
+			print("TRANSLATE ERROR")
 		elif code == 40:  # Don't support this language
-			print 'CAN\'T SUPPORT THIS LANGUAGE'
+			print("CAN\'T SUPPORT THIS LANGUAGE")
 		elif code == 50:  # Key failed
-			print 'KEY FAILED'
+			print("KEY FAILED")
 		elif code == 60:  # Don't have this word
-			print 'DO\'T HAVE THIS WORD'
+			print("DO\'T HAVE THIS WORD")
 
 if __name__ == '__main__':
 	Dict(sys.argv[1:])

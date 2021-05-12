@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 """Simple Zhihu XiaChe Reader"""
 
-from urllib2 import urlopen, URLError
-from HTMLParser import HTMLParser
-from urllib import urlopen
+from urllib.request import urlopen
+from urllib.error import URLError
+from html.parser import HTMLParser
 from json import loads
 
 CONNECTION_MSG = "Cannot connect to Zhihu!"
@@ -61,7 +61,8 @@ def printResult(url):
 	p.feed(html)
 	p.data.append('\n')
 	for i in p.data:
-		print(unicode(i).encode('utf8'))
+		print(i)
+		# print(unicode(i).encode('utf8'))
 
 def main():
 	printResult(CONTENT_URL + getID(LIST_URL))

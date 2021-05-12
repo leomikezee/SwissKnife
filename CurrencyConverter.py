@@ -3,9 +3,9 @@
 
 from __future__ import print_function
 
-from urllib2 import urlopen, URLError
-from HTMLParser import HTMLParser
-from urllib import urlopen
+from urllib.request import urlopen
+from urllib.error import URLError
+from html.parser import HTMLParser
 from sys import argv
 
 FROM = "https://www.google.com/finance/converter?a=1&from="
@@ -65,6 +65,7 @@ def getResult(url):
 def printResult(url):
 	result = getResult(url)
 	p = CurrencyParser()
+	print(result)
 	p.feed(result)
 	for i in p.data:
 		print(i, end="")
